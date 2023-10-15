@@ -253,7 +253,7 @@ class Viper extends Character {
               //自機キャラクターの座標にショットを生成する
               this.shotArray[i].set(this.position.x, this.position.y);
               //ショットを生成したのでインターバルを設定する
-              this.shotCheckCounter = -this.shotInterval
+              this.shotCheckCounter = -this.shotInterval;
               //１つ生成したらループを抜ける
               break;
             }
