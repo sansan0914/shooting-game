@@ -62,6 +62,12 @@
   let shotArray = [];
 
   /**
+ * シングルショットのインスタンスを格納する配列
+ * @type {Array<shot>}
+ */
+  let singleShotArray = [];
+
+  /**
    * ページのロードが完了したときに発火する load イベント
    */
   window.addEventListener('load', () => {
@@ -98,9 +104,11 @@
 
     //ショットを初期化する
     for (let i = 0; i < SHOT_MAX_COUNT; ++i) {
-      shotArray[i] = new Shot(ctx, 0, 0, 32, 32, './images/viper_shot.png')
+      shotArray[i] = new Shot(ctx, 0, 0, 32, 32, './images/viper_shot.png');
+      singleShotArray[i * 2] = new Shot(ctx, 0, 0, 32, 32, './images/viper_single_shot.png');
+      singleShotArray[i * 2 + 1] = new Shot(ctx, 0, 0, 32, 32, './images/viper_single_shot.png');
     }
-    viper.setShotArray(shotArray);
+    viper.setShotArray(shotArray, singleShotArray);
   }
 
   /**
@@ -113,6 +121,10 @@
     ready = ready && viper.ready;
     //同様にショットの準備状況を確認する
     shotArray.map((v) => {
+      ready = ready && v.ready;
+    });
+    //同様にシングルショットの準備状況を確認する
+    singleShotArray.map((v) => {
       ready = ready && v.ready;
     });
 
@@ -162,7 +174,12 @@
     //ショットの状態を更新する
     shotArray.map((v) => {
       v.update();
-    })
+    });
+
+    //シングルショットの状態を更新する
+    singleShotArray.map((v) => {
+      v.update();
+    });
 
     // 恒常ループのために描画処理を再帰呼出しする
     requestAnimationFrame(render);
